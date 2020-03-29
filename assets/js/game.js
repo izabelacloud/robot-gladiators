@@ -177,7 +177,14 @@
 
 
 var fight = function(enemy) {
+  var isPlayerTurn = true;
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
   while (playerInfo.health > 0 && enemy.health > 0) {
+    // if (isPlayerTurn) {
+
+    // }
     // ask user if they'd liked to fight or run
     var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
     promptFight = promptFight.toLowerCase();
@@ -299,22 +306,68 @@ var startGame = function() {
 
 // function to end the game
 var endGame = function() {
-  //if player is still alive, player wins
-  if (playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
-  }
-  else {
-    window.alert("You have lost your robot in battle.");
-  }
-  // window.alert("The game has now ended. Let's see how you did!");
+  window.alert("The game has now ended. Let's see how you did!");
 
-  var playAgainConfirm = window.confirm("Would you like to play again?");
-  if (playAgainConfirm) {
-    //restart the game
-    startGame();
-  } else {
-    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+  // check localStorage for high score, if it's not there, use 0
+  var highScore = localStorage.getItem("highscore");
+  if (highScore === null) {
+    highScore = 0;
   }
+  // if player have more money than the high score, player has new high score!
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highscore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+  } 
+  else {
+    alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
+  }
+
+  // ask player if they'd like to play again
+  var playAgainConfirm = window.confirm("Would you like to play again?");
+
+  if (playAgainConfirm) {
+    startGame();
+  } 
+  else {
+    window.alert("Thank you for playing Battlebots! Come back soon!");
+  }
+  // window.alert("The game has now ended. Let's see hwo you did!");
+
+  // // check localStorage for high score, if it's not there, use 0
+  // var highScore = localStorage.getItem("highscore");
+  // if (highScore === null) {
+  //   highScore = 0;
+  // }
+
+  // // if player have more money than the high score, player has new high score!
+  // if (playerInfo.money > highScore) {
+  //   localStorage.setItem("highscore", playerInfo.money);
+  //   localStorage.setItem("name", playerInfo.name);
+
+  //   alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
+  // }
+  // else {
+  //   alert(playerInfo.name + " did mot beat the high score of " highScore + "Maybe next time!");
+  // }
+  
+  // // //if player is still alive, player wins
+  // // if (playerInfo.health > 0) {
+  // //   window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
+  // // }
+  // // else {
+  // //   window.alert("You have lost your robot in battle.");
+  // // }
+  // // // window.alert("The game has now ended. Let's see how you did!");
+
+  // var playAgainConfirm = window.confirm("Would you like to play again?");
+  // if (playAgainConfirm) {
+  //   //restart the game
+  //   startGame();
+  // } else {
+  //   window.alert("Thank you for playing Battlebots! Come back soon!");
+  // }
 
 };
 
